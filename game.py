@@ -67,7 +67,7 @@ class Game:
                         bird.alive = False
                         break
 
-                    if pipes not in bird.passed_pipes and pipes.x_position < BIRD_X_POS - 10:
+                    if pipes not in bird.passed_pipes and pipes.x_position < BIRD_X_POS - 50:
                         bird.passed_pipes.append(pipes)
 
         self.alive_birds = list(filter(lambda x: x.alive, self.birds))

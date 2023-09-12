@@ -39,7 +39,7 @@ def main(genomes, config):
         for index, [network, genome] in enumerate(networks):
             bird = game.birds[index]
             if bird.alive:
-                output = network.activate((closest_pipe.x_position, closest_pipe.height, bird.height))
+                output = network.activate((closest_pipe.x_position-BIRD_X_POS, closest_pipe.height, closest_pipe.height + GAP_SIZE, bird.height))
                 if output[0] > 0:
                     bird.jump()
                 genome.fitness += 1
