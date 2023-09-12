@@ -31,7 +31,7 @@ def main(genomes, config):
                 pygame.quit()
                 sys.exit()
 
-        alive_bird = list(filter(lambda x: x.alive, game.birds))[0]
+        alive_bird = game.alive_birds[0]
         for pipes in game.pipes:
             if pipes not in alive_bird.passed_pipes:
                 closest_pipe = pipes
@@ -40,7 +40,7 @@ def main(genomes, config):
             bird = game.birds[index]
             if bird.alive:
                 output = network.activate((closest_pipe.x_position, closest_pipe.height, bird.height))
-                if output[0] > 0.5:
+                if output[0] > 0:
                     bird.jump()
                 genome.fitness += 1
 
@@ -52,6 +52,9 @@ def main(genomes, config):
             return
 
         game.draw()
+        generation_label = FONT.render(f"Generation: {generations}", False, "black")
+        generation_rect = generation_label.get_rect(topright=(580, 20))
+        screen.blit(generation_label, generation_rect)
         pygame.display.update()
         prev_time = current_time
 

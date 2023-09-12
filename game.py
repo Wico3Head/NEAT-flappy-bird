@@ -10,8 +10,14 @@ class Game:
         self.backgrounds = [[0, 0]]
         self.pipes = [Pipe(self.window, random.randint(PIPE_GAP_MAX_HEIGHT, PIPE_GAP_MIN_HEIGHT))]
         self.birds = [Bird(window) for i in range(player_count)]
+        self.alive_birds = self.birds
         self.pipe_creation_time = pygame.time.get_ticks()
         self.game_over = False
+
+        self.alive_label = None
+        self.alive_rect = None
+        self.score_label = None
+        self.score_rect = None
 
     def createPipe(self):
         self.pipes.append(Pipe(self.window, random.randint(PIPE_GAP_MAX_HEIGHT, PIPE_GAP_MIN_HEIGHT)))
@@ -27,6 +33,14 @@ class Game:
         for bird in self.birds:
             if bird.alive:
                 bird.draw()
+
+        self.alive_label = FONT.render(f"Alive: {len(self.alive_birds)}", False, "black")
+        self.alive_rect = self.alive_label.get_rect(topright=(580, 100))
+        if not self.game_over:
+            self.score_label = FONT.render(f"Score: {len(self.alive_birds[0].passed_pipes)}", False, "black")
+            self.score_rect = self.score_label.get_rect(topleft=(20, 20))
+        self.window.blit(self.score_label, self.score_rect)
+        self.window.blit(self.alive_label, self.alive_rect)
 
     def update(self, deltaTime):
         current_time = pygame.time.get_ticks()
@@ -56,7 +70,9 @@ class Game:
                     if pipes not in bird.passed_pipes and pipes.x_position < BIRD_X_POS - 10:
                         bird.passed_pipes.append(pipes)
 
-        if len(list(filter(lambda x: x.alive, self.birds))) == 0:
+        self.alive_birds = list(filter(lambda x: x.alive, self.birds))
+
+        if len(self.alive_birds) == 0:
             self.game_over = True
             return
 
