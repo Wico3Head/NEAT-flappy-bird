@@ -1,4 +1,5 @@
-import os
+import os, pygame
+pygame.init()
 
 SCREEN_HEIGHT, SCREEN_WIDTH = 900, 600
 LOCAL_DIR = os.path.dirname(__file__)
@@ -11,3 +12,5 @@ PIPE_SPAWN_TIME = 2500
 BIRD_X_POS = 40
 GRAVITATIONAL_CONSTANT = 0.04
 BIRD_JUMP_ACCELERATION = -8
+
+FONT = pygame.font.Font(os.path.join(LOCAL_DIR, 'Assets/pixel.ttf'), 60)
